@@ -1,0 +1,6 @@
+{
+  "$schema": "https://schema.railpack.com",
+  "env": {
+    "RAILPACK_PHP_VERSION": "8.4"
+  }
+}
