@@ -33,10 +33,11 @@ class PesertaController extends Controller
 
         // Upload foto
         $foto = $request->file('foto');
-        $foto->storeAs('public/pesertas', $foto->hashName());
+        $filename = time() . '_' . $foto->getClientOriginalName();
+        $foto->storeAs('public/pesertas', $filename);
 
         Peserta::create([
-            'foto'        => $foto->hashName(),
+            'foto'        => $filename,
             'nama'        => $request->nama,
             'no_ujian'    => $request->no_ujian,
             'nilai_ujian' => $request->nilai_ujian,
@@ -65,13 +66,14 @@ class PesertaController extends Controller
         // Cek apakah ada foto baru
         if ($request->hasFile('foto')) {
             $foto = $request->file('foto');
-            $foto->storeAs('public/pesertas', $foto->hashName());
+            $filename = time() . '_' . $foto->getClientOriginalName();
+            $foto->storeAs('public/pesertas', $filename);
 
             // Hapus foto lama
             Storage::delete('public/pesertas/' . $peserta->foto);
 
             $peserta->update([
-                'foto'        => $foto->hashName(),
+                'foto'        => $filename,
                 'nama'        => $request->nama,
                 'no_ujian'    => $request->no_ujian,
                 'nilai_ujian' => $request->nilai_ujian,
