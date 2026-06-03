@@ -34,7 +34,7 @@ class PesertaController extends Controller
         // Upload foto
         $foto = $request->file('foto');
         $filename = time() . '_' . $foto->getClientOriginalName();
-        $foto->storeAs('public/pesertas', $filename);
+        $foto->storeAs('pesertas', $filename, 'public');
 
         Peserta::create([
             'foto'        => $filename,
@@ -67,10 +67,10 @@ class PesertaController extends Controller
         if ($request->hasFile('foto')) {
             $foto = $request->file('foto');
             $filename = time() . '_' . $foto->getClientOriginalName();
-            $foto->storeAs('public/pesertas', $filename);
+            $foto->storeAs('pesertas', $filename, 'public');
 
             // Hapus foto lama
-            Storage::delete('public/pesertas/' . $peserta->foto);
+            Storage::disk('public')->delete('pesertas/' . $peserta->foto);
 
             $peserta->update([
                 'foto'        => $filename,
@@ -93,7 +93,7 @@ class PesertaController extends Controller
     // DELETE - Hapus data
     public function destroy(Peserta $peserta)
     {
-        Storage::delete('public/pesertas/' . $peserta->foto);
+        Storage::disk('public')->delete('pesertas/' . $peserta->foto);
         $peserta->delete();
 
         return redirect()->route('pesertas.index')
